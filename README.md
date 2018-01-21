@@ -66,4 +66,4 @@ Take a look at [service/app.go](service/app.go) for how to consume the PubSub re
 
 ## Example
 
-See [github.com/leighmcculloch/demo-google-cloud-appengine-crossregion](https://github.com/leighmcculloch/demo-google-cloud-appengine-crossregion).
+See [example](example).
