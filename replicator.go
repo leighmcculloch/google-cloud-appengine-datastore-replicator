@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"time"
 
 	"golang.org/x/oauth2/google"
 	pubsub "google.golang.org/api/pubsub/v1"
@@ -25,6 +26,10 @@ const (
 	attributeKeySourceServiceVersion = "source-service-version"
 	attributeKeySourceRequestID      = "source-request-id"
 )
+
+func init() {
+	gob.Register(time.Time{})
+}
 
 type Source struct {
 	AppID          string
