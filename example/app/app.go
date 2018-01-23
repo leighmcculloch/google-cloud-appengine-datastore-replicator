@@ -48,6 +48,16 @@ func homeHandler(c context.Context, u *user.User, w http.ResponseWriter, r *http
 	if err != nil {
 		return err
 	}
+	w.Write([]byte(`<html>`))
+	w.Write([]byte(`<head>`))
+	w.Write([]byte(`<style>`))
+	w.Write([]byte(`body { font-family: sans-serif; }`))
+	w.Write([]byte(`</style>`))
+	w.Write([]byte(`</head>`))
+	w.Write([]byte(`<body>`))
+	w.Write([]byte(`<center>`))
+	w.Write([]byte(`<h2>Tasks</h3>`))
+	w.Write([]byte(`<h3>` + u.Email + `</h3>`))
 	for _, t := range allTasks {
 		if t.State() == tasks.StateIncomplete {
 			w.Write([]byte(`<form action="/task/complete">`))
