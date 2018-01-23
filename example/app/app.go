@@ -74,14 +74,21 @@ func homeHandler(c context.Context, u *user.User, w http.ResponseWriter, r *http
 		}
 	}
 	w.Write([]byte(`<form action="/task/new">`))
-	w.Write([]byte(`<input type="text" name="title" value="" />`))
+	w.Write([]byte(`<input type="text" name="title" value="" maxlength="30" />`))
 	w.Write([]byte(`<input type="submit" value="Add Task" />`))
 	w.Write([]byte(`</form>`))
+	w.Write([]byte(`</center>`))
+	w.Write([]byte(`</body>`))
+	w.Write([]byte(`</html>`))
 	return nil
 }
 
 func newTaskHandler(c context.Context, u *user.User, w http.ResponseWriter, r *http.Request) error {
 	title := r.FormValue("title")
+
+	if len(title) > 30 {
+		title = title[:30]
+	}
 
 	_, err := tasks.Create(c, title)
 	if err != nil {
