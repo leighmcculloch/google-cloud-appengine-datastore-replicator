@@ -12,6 +12,14 @@ import (
 const replicatorTopic = "datastore-puts"
 const taskKind = "task"
 
+func Count(c context.Context) (int, error) {
+	taskKeys, err := datastore.NewQuery(taskKind).KeysOnly().GetAll(c, nil)
+	if err != nil {
+		return 0, err
+	}
+	return len(taskKeys), nil
+}
+
 func GetAll(c context.Context) ([]*Task, error) {
 	var tasks []*Task
 	taskKeys, err := datastore.NewQuery(taskKind).GetAll(c, &tasks)

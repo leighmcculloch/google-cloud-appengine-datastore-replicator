@@ -11,6 +11,8 @@ import (
 	"google.golang.org/appengine/user"
 )
 
+const maxTasks = 30
+
 func init() {
 	http.Handle("/", appHandler(homeHandler))
 	http.Handle("/task/new", appHandler(newTaskHandler))
@@ -73,10 +75,12 @@ func homeHandler(c context.Context, u *user.User, w http.ResponseWriter, r *http
 			w.Write([]byte(`</form>`))
 		}
 	}
-	w.Write([]byte(`<form action="/task/new">`))
-	w.Write([]byte(`<input type="text" name="title" value="" maxlength="30" />`))
-	w.Write([]byte(`<input type="submit" value="Add Task" />`))
-	w.Write([]byte(`</form>`))
+	if len(allTasks) < maxTasks {
+		w.Write([]byte(`<form action="/task/new">`))
+		w.Write([]byte(`<input type="text" name="title" value="" maxlength="30" />`))
+		w.Write([]byte(`<input type="submit" value="Add Task" />`))
+		w.Write([]byte(`</form>`))
+	}
 	w.Write([]byte(`</center>`))
 	w.Write([]byte(`</body>`))
 	w.Write([]byte(`</html>`))
@@ -84,13 +88,22 @@ func homeHandler(c context.Context, u *user.User, w http.ResponseWriter, r *http
 }
 
 func newTaskHandler(c context.Context, u *user.User, w http.ResponseWriter, r *http.Request) error {
+	taskCount, err := tasks.Count(c)
+	if err != nil {
+		return err
+	}
+	if taskCount >= maxTasks {
+		http.Error(w, "Task limit reached.", 403)
+		return nil
+	}
+
 	title := r.FormValue("title")
 
 	if len(title) > 30 {
 		title = title[:30]
 	}
 
-	_, err := tasks.Create(c, title)
+	_, err = tasks.Create(c, title)
 	if err != nil {
 		return err
 	}

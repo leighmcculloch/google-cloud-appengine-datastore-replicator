@@ -50,6 +50,10 @@ func Get(c context.Context, taskID string) (*Task, error) {
 	return task, nil
 }
 
+func Count(c context.Context) (int, error) {
+	return tasksdo.Count(c)
+}
+
 func GetAll(c context.Context) ([]*Task, error) {
 	taskDOs, err := tasksdo.GetAll(c)
 	if err != nil {
