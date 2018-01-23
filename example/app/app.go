@@ -2,7 +2,9 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"strings"
 
 	"4d63.com/google-cloud-appengine-datastore-replicator/example/tasks"
 
@@ -31,12 +33,13 @@ func (h appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Access denied.", 403)
 		return
 	}
-	c, err := appengine.Namespace(c, u.ID)
+	namespacedCtx, err := appengine.Namespace(c, fmt.Sprintf("%s-%s", u.ID, strings.Replace(u.Email, "@", "-", -1)))
 	if err != nil {
 		log.Errorf(c, "Error: %#v", err)
 		http.Error(w, "Access denied.", 403)
 		return
 	}
+	c = namespacedCtx
 	err = h(c, u, w, r)
 	if err != nil {
 		log.Errorf(c, "Error: %#v", err)
