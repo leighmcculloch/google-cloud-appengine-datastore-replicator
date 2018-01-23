@@ -6,6 +6,7 @@ Deployed at:
 
 * https://crossregion-a.appspot.com/ (us-east-1)
 * https://crossregion-b.appspot.com/ (australia-southeast1)
+* https://crossregion-c.appspot.com/ (europe-west2)
 
 ## Status
 
