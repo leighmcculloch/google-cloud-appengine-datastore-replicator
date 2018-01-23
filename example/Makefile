@@ -9,6 +9,13 @@ deploy:
 		gcloud --project $(PID) app deploy -q && \
 	) true
 
+delete-old-versions:
+	$(foreach PID,$(PROJECT_IDS), \
+		gcloud --project $(PID) app versions list --filter="traffic_split=0" --format json \
+		| jq -r ".[].id" \
+		| xargs gcloud --project $(PID) app versions delete -q ; \
+	)
+
 deploy-indexes:
 	cd app && $(foreach PID,$(PROJECT_IDS), \
 		gcloud --project $(PID) datastore create-indexes index.yaml -q && \
