@@ -25,6 +25,6 @@ WIP
 3. Deploy the demo app and the replicator service to the projects.
 
    ```
-   make PROJECT_IDS="<project-id-1> <project-id-2> ..." deploy
+   make PROJECT_IDS="<project-id-1> <project-id-2> ..." deploy deploy-indexes deploy-replicator
    ```
 
