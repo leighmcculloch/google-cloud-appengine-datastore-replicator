@@ -3,6 +3,7 @@ PROJECT_IDS ?= proj-a proj-b
 TOPIC_NAME ?= datastore-puts
 
 run:
+	go install ./...
 	dev_appserver.py --port=8080 app.yaml
 
 deploy:
@@ -25,7 +26,7 @@ create-pubsub:
 
 delete-pubsub:
 	$(foreach PID,$(PROJECT_IDS), \
-		gcloud --project $(PID) pubsub topics delete events && \
+		gcloud --project $(PID) pubsub topics delete $(TOPIC_NAME) && \
 	) true
 	$(foreach PID_PUB,$(PROJECT_IDS), \
 		$(foreach PID_SUB,$(PROJECT_IDS), \

@@ -12,12 +12,19 @@ Experimental
 
 ## Usage
 
-Use the package to publish Datastore Puts, and deploy the service to all regions where the data should be replicated. Use the Makefile to setup the cross region PubSub topics and subscriptions.
+Use the Makefile to setup the cross region PubSub topics and subscriptions. Use the package to publish Datastore Puts, and deploy the service to all regions where the data should be replicated.
 
-### 1. Publish Datastore Puts to other regions
+### 1. Create the PubSub topics and subscriptions
+
+```
+cd service
+make PROJECT_IDS="<project-id-1> <project-id-2> ..." create-pubsub
+```
+
+### 2. Publish Datastore Puts to other regions
 
 ```go
-import "4d63.com/google-cloud-appengine-datastore-replicator"
+import replicator "4d63.com/google-cloud-appengine-datastore-replicator"
 ```
 
 ```go
@@ -34,35 +41,21 @@ if err != nil {
 }
 ```
 
-### 2. Subscribe to Datastore Puts and replicate them
+Recommendations and strategies:
 
-#### 2a. Use the replicator service
+- Generate IDs for keys yourself and use complete keys, don't use the Datastore Allocator to generate IDs by putting entities with an incomplete key. If you use the allocator it may generate overlapping IDs in different projects causing loss of existing entities.
+- Write an entity once to a key, and write updates as new entities. Resolve conflicts when reading.
+
+### 3. Subscribe to Datastore Puts and replicate them
+
+Use the replicator service to receive pushes from the subscriptions setup in step 1. The replicator service will store the entities into it's local project respecting the same namespace and key, including the parent keys.
 
 ```
 cd service
+make PROJECT_IDS="<project-id-1> <project-id-2> ..." deploy
 ```
 
-##### Create the PubSub topics and subscriptions
-
-```
-make create-pubsub
-```
-
-##### Deploy replicator service
-
-```
-make deploy
-```
-
-##### Delete the PubSub topics and subscriptions
-
-```
-make delete-pubsub
-```
-
-#### 2b. Use the package
-
-Take a look at [service/app.go](service/app.go) for how to consume the PubSub request, unpack it, then put it to the local Datastore.
+Alternatively if you'd like to create your own service to store the entities, take a look at [service/app.go](service/app.go) for how to consume the PubSub request, unpack it, then put it to the local Datastore.
 
 ## Example
 

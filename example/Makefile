@@ -1,4 +1,4 @@
-PROJECT_IDS ?= crossregion-a crossregion-b
+PROJECT_IDS ?= crossregion-a crossregion-b 
 
 run:
 	cd app && dev_appserver.py --port=8080 app.yaml
