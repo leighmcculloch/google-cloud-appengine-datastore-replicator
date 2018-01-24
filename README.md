@@ -54,7 +54,7 @@ Recommendations and strategies:
 
 ### 3. Subscribe to Datastore Puts and replicate them
 
-Use the replicator service to receive pushes from the subscriptions setup in step 1. The replicator service will store the entities into it's local project respecting the same namespace and key, including the parent keys.
+Use the replicator service to receive pushes from the subscriptions setup in step 1. The replicator service will store the entities into its local project respecting the same namespace and key, including the parent keys.
 
 ```
 cd service
