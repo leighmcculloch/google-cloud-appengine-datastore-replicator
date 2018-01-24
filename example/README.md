@@ -1,6 +1,6 @@
 # example
 
-A demonstration of how to use Google Cloud PubSub across multiple projects, and to replicate data across regional products like Google Cloud Datastore.
+A demonstration of how to use Google Cloud PubSub across multiple projects to replicate data across regional products like Google Cloud Datastore using the `4d63.com/google-cloud-appengine-datastore-replicator` package.
 
 Deployed at:
 
@@ -8,13 +8,9 @@ Deployed at:
 * https://crossregion-b.appspot.com/ (australia-southeast1)
 * https://crossregion-c.appspot.com/ (europe-west2)
 
-## Status
-
-WIP
-
 ## Usage
 
-1. Create two or more projects, and activate appengine, selecting different regions for each.
+1. Create two or more projects. Activate AppEngine one each in the console, selecting different regions for each. Activate PubSub on each in the console.
 
 2. Setup PubSub topics and subscriptions
 
