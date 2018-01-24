@@ -10,6 +10,12 @@ There is no coordination to determine latest write when race conditions occur. R
 
 Experimental
 
+## Requirements
+
+* Google AppEngine (Standard)
+* Google Cloud Datastore
+* Google Cloud PubSub
+
 ## Usage
 
 Use the Makefile to setup the cross region PubSub topics and subscriptions. Use the package to publish Datastore Puts, and deploy the service to all regions where the data should be replicated.
